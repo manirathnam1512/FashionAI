@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fashion AI</title>
+</head>
+<body>
+    <h1>Upload an Image for Fashion Recommendations</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.querySelector("form").onsubmit = async (e) => {
+            e.preventDefault();
+            let formData = new FormData(e.target);
+
+            let response = await fetch("/", {
+                method: "POST",
+                body: formData,
+            });
+
+            let data = await response.json();
+            document.getElementById("result").innerHTML = `
+                <h3>Recommendation: ${data.recommendation}</h3>
+                <img src="${data.image_url}" width="200">
+            `;
+        };
+    </script>
+</body>
+</html>
